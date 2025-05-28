@@ -10,7 +10,8 @@ import java.time.Instant;
 @Table(name = "photo")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class Photo {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
@@ -24,6 +25,10 @@ public class Photo {
     /** путь или URL до файла */
     @Column(nullable = false, length = 512)
     private String path;
+
+    /** имя пачки (zip-архива) */
+    @Column(name = "batch_name", length = 255)
+    private String batchName;
 
     /** время снимка из EXIF */
     private Instant shotTime;

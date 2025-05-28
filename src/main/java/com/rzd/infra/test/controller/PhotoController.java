@@ -1,42 +1,22 @@
+// src/main/java/com/rzd/infra/test/controller/PhotoController.java
 package com.rzd.infra.test.controller;
 
-import com.rzd.infra.test.entity.Photo;
-import com.rzd.infra.test.service.PhotoService;
+import com.rzd.infra.test.service.SinglePhotoService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/v1/photos")
+@RequiredArgsConstructor
 public class PhotoController {
-    private final PhotoService svc;
 
-    public PhotoController(PhotoService svc) {
-        this.svc = svc;
-    }
+    private final SinglePhotoService service;
 
-    @GetMapping("/by-object/{objectId}")
-    public List<Photo> listByObject(@PathVariable Long objectId) {
-        return svc.listByObject(objectId);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Photo> get(@PathVariable Long id) {
-        return svc.get(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @PostMapping
-    public ResponseEntity<Photo> create(@RequestBody Photo photo) {
-        Photo saved = svc.create(photo);
-        return ResponseEntity.ok(saved);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        svc.delete(id);
-        return ResponseEntity.noContent().build();
+    @PostMapping(consumes = "multipart/form-data")
+    public ResponseEntity<Void> uploadOne(@RequestPart("file") MultipartFile file) throws Exception {
+        service.handle(file);
+        return ResponseEntity.ok().build();
     }
 }
