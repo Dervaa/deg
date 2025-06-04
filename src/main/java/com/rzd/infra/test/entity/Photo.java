@@ -38,7 +38,7 @@ public class Photo {
     private Double confidence;
 
     /** Привязка к инфра-объекту */
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "object_id")
     private InfrastructureObject object;
 }

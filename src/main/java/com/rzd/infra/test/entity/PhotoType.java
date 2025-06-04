@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name="object_type")
+@Table(name="photo_type")
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
 public class PhotoType {
     @Id

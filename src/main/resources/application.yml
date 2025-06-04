@@ -1,12 +1,17 @@
+# src/main/resources/application.yml
+
 spring:
   servlet:
     multipart:
-      max-file-size: 100MB
-      max-request-size: 200MB
+      max-file-size: 10000MB
+      max-request-size: 20000MB
+
+  # настройки подключения к PostgreSQL
   datasource:
     url: jdbc:postgresql://localhost:5432/infrastructure
     username: postgres
     password: 1234
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -14,5 +19,23 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+  data:
+     mongodb:
+       host: localhost
+       port: 27017
+       database: infra_db
+
+
+  # ‒‒‒‒‒‒‒‒ НАСТРОЙКИ ДЛЯ Python-WORKER ‒‒‒‒‒‒‒‒
+  # Здесь кладём URL, на который Spring отправляет запрос с ZIP
+python:
+  worker:
+    url: http://localhost:8000/process
+  # ‒‒‒‒‒‒‒‒‒‒‒‒‒‒ Конец раздела Python-config ‒‒‒‒‒‒‒‒‒‒‒‒
+
 server:
-  port: 8080
+  port: 8081
+logging:
+  level:
+    org.springframework.web: DEBUG
